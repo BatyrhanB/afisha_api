@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Genre, Movie, Review
+from .models import Cinema, Genre, Movie, Review
+
+
+class CinemaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cinema
+        fields = '__all__'
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -14,11 +21,10 @@ class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = '__all__'
-
-
 class MovieSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True)
     genres = GenreSerializer(many=True)
+    cinema = CinemaSerializer(many=False)
 
     class Meta:
         model = Movie
