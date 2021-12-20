@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from main.models import Cinema, Movie
 from rest_framework.response import Response
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer, MovieCreateValidateSerializer
 
 @api_view(['GET', 'POST'])  
 def cinema_list_view(request):
@@ -13,16 +13,22 @@ def cinema_list_view(request):
         serializer = MovieSerializer(movies, many=True)
         return Response(data=serializer.data)
     elif request.method == 'POST':
+        serializer = MovieCreateValidateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE,
+            data={'messege': 'error',
+            'errors': serializer.errors})
         title = request.data['title']
-        description = request.data['description', '']
+        description = request.data['description']
         cinema = request.data['cinema']
-        genres = request.data['genres', []]
+        genres = request.data['genres']
         movie = Movie.objects.create(
-            title=title, description=description, cinema=cinema,
+            title=title, description=description, cinema_id=cinema,
         )
         movie.save()
         movie.genres.set(genres)
         movie.save()
+        return Response("Movie created!")
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def cinema_detail_view(request, id):
