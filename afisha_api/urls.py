@@ -20,8 +20,8 @@ from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/movies/', views.cinema_list_view),
-    path('api/v1/movie/<int:id>/', views.cinema_detail_view),
+    path('api/v1/movies/', views.MovieListAPIView.as_view()),
+    path('api/v1/movie/<int:id>/', views.MovieDetailAPIView.as_view()),
     path('api/v1/register/', user_views.RegisterAPIViiew.as_view()),
     path('api/v1/login/', user_views.LoginAPIViiew.as_view())
 ]
