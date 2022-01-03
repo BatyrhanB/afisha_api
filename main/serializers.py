@@ -30,7 +30,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = 'id title reviews review_count genres cinema'.split()
+        fields = 'id title image reviews review_count genres cinema'.split()
 
     def get_review_count(self, product):
         return product.reviews.all().count()

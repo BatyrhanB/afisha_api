@@ -14,6 +14,7 @@ class Cinema(models.Model):
         return self.name 
 
 class Movie(models.Model):
+    image = models.ImageField(upload_to='products', null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
